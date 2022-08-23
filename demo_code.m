@@ -24,9 +24,6 @@ num_sim = 100; % # of Monte-Carlo runs, for boxplots of |\hat G_z - G^*|_\infty
 
 num_grids = 100; % # of grid points;
 
-num_randsearch = 10; %4 * 200; % # of random search for z_crt and z_KS
-%num_randsearch = 800;
-
 num_bins = 10; % # of bins in the empirical pdf estimator
 
 choice_F = 0;
@@ -259,7 +256,8 @@ toc
 h_3 = figure(3); %----- compare box plots of KS-statistics ------
 subplot(2,2,1)
 boxplot([D_n_exist, D_n_dep_2, D_n_indep_3, D_n_crt])
-set(gca, 'XTickLabel', {'z_1 (exist)', 'z_2', 'z_3', 'z_crt'});
+set(gca, 'XTickLabel', {'z_1 (exist)', 'z_2', 'z_3', 'z_crt'}, ...
+    'XTickLabelRotation',0);
 
 ylabel(['\textbf{compare} ', ...
     '{\boldmath{$\|\widehat{G}_{z}-G\|_{\infty}$}}'], 'interpreter', 'latex')
@@ -329,7 +327,7 @@ function L_vector = discrete_label_generator(prop_vector, num_obs)
 % <Input>:
 % prop_vector: = (p_1,...,p_K)': K*1 vector
 %   num_obs  :  n
-%
+%-------------------------------------------------------------------------
 % <Output>:
 % L_vector: = (X_1,...,X_n)', n*1 vector
 %-------------------------------------------------------------------------
