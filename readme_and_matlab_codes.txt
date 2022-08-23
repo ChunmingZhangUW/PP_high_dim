@@ -4,9 +4,12 @@ Readme description for producing Figure 2 (left panel and right panel) and Figur
 
 All Matlab codes are located in the same directory.
 
-(1) Main matlab code: run "BKN_Theorems_1_2i.m". 
+There are 2 methods to implement the code:
 
-(2) This main code calls for other matlab functions listed below:
+Method 1: 
+(1) Main matlab code: "BKN_Theorems_1_2i.m" (attached in Part 2). 
+
+(2) This main code calls for other matlab functions (attached in Part 2) listed below:
 
 est_pdf_from_histogram.m                    
 CDF_mixture_Gaussians_D_dim_func.m          mean_cov_mixture_Gaussians_D_dim.m          
@@ -16,6 +19,7 @@ Least_squares_min_w_quad_equa_constraint.m  z_vector_exist_dep_on_X_G.m
 X_matrix_sim.m                              z_vector_unit_Euclidean_norm.m              
 discrete_label_generator.m            
    
+Method 2: directly run the source code "demo_code.m" in the GitHub https://github.com/ChunmingZhangUW/PP_high_dim.
 
 ============== Part 2: Scripts for Matlab codes =============================
 
@@ -45,8 +49,6 @@ num_sim = 100; % # of Monte-Carlo runs, for boxplots of |\hat G_z - G^*|_\infty
 
 num_grids = 100; % # of grid points;
 
-num_randsearch = 10; %4 * 200; % # of random search for z_crt and z_KS
-
 num_bins = 10; % # of bins in the empirical pdf estimator
 
 choice_F = 0;
@@ -64,30 +66,30 @@ if choice_a_vector == 1; num_samplings = 10000; end
 %==========================================================================
 if     choice_G == 1 % mixture Gaussian
     prop_vector = [1/2; 1/2];
-    
+
     mu = 2; sigma = 1/2;
     mu_matrix = [-mu  +mu]; sigma_matrix = [sigma  sigma];
-    
+
     if strcmp(choice_CDF_in_target, 'G') == 1
         pdf_1D_in_target = @(x) pdf_mixture_Gaussians_D_dim_func...
             (prop_vector, mu_matrix, sigma_matrix, x); % pdf of target CDF = G
-        
+
         CDF_1D_in_target = @(x) CDF_mixture_Gaussians_D_dim_func...
             (prop_vector, mu_matrix, sigma_matrix, x); % CDF of target CDF = G
     end
-    
+
     [mu_G_vector, cov_G_matrix] = mean_cov_mixture_Gaussians_D_dim...
         (prop_vector, mu_matrix, sigma_matrix);
     disp(' mu_G_vector, cov_G_matrix are: ')
     disp( [mu_G_vector, cov_G_matrix] )
-    
+
     mu_2_G = cov_G_matrix - mu_G_vector^2;
-    
+
     %----------------------------------------------------
     disp('===== For Theorem 1 =====');
     disp([' gamma = p/n = ', num2str(gamma), ...
         ', mu_2(G) = ', num2str(mu_2_G)])
-    
+
     disp('===== For Theorem 2(i) =====');
     if gamma > 1 && mu_2_G < gamma - 1
         disp('gamma > 1 and mu_2(G) < gamma - 1; satisfies condition in Theorem 2(i)')
@@ -107,40 +109,40 @@ for sim = 1:num_sim
     %--------------------- generate data matrix ---------------------------
     [X_matrix] = X_matrix_sim(choice_F, dim_p, num_obs, mu_F, A, B);
     % dim_p * num_obs matrix
-    
+
     %--------------- get a_vector_G from G --------------------------------
-    
+
     if choice_G == 1
         if     choice_a_vector == 1
             samples_G = mixture_Gaussians_D_dim_generator...
                 (prop_vector, mu_matrix, sigma_matrix, num_samplings);
             % 1* num_samplings, vector, random samples from G
-            
+
             a_vector_G = prctile(samples_G, 100*(1:num_obs)'/(num_obs+1));
             % n*1, vector, sample quantiles of G
         end
     end
-    
+
     %--------------- a data-dependent direction ---------------------------
     if sim == 1;  opt_display = 1;  else;  opt_display = 0;  end
     [z_vector_data_exist] = z_vector_exist_dep_on_X_G...
         (X_matrix, a_vector_G, opt_display);
-    
+
     %--------------- another data-dependent direction ---------------------
-    
+
     z_vector_data_dep_2 = z_vector_unit_Euclidean_norm...
         ( mean(X_matrix(:, (1:num_obs)), 2) );
     % p*1 vector, on the unit sphere
-    
+
     %-------------- a data-independent direction --------------------------
-    
+
     z_vector_data_indep_3 = z_vector_unit_Euclidean_norm...
         ( normrnd(0, 1, dim_p, 1) );
     % p*1 vector, uniformly distributed on the unit sphere
-    
+
     %--------------- a data-dependent critical direction ------------------
     %z_vector_crt = zeros(dim_p, 1);
-    
+
     method_LS_m_w_q_q_c = 1; % for SVD method in Golub & Van Loan (2013)
     if     method_LS_m_w_q_q_c == 1
         z_vector_initial = [];
@@ -150,20 +152,20 @@ for sim = 1:num_sim
         Least_squares_min_w_quad_equa_constraint...
         (X_matrix', a_vector_G, 1, method_LS_m_w_q_q_c);
     % p*1 vector, on the unit sphere
-    
+
     %------------------ vector S ------------------------------------------
-    
+
     S_vector_exist   = (z_vector_data_exist'   * X_matrix)';
     S_vector_dep_2   = (z_vector_data_dep_2'   * X_matrix)';
     S_vector_indep_3 = (z_vector_data_indep_3' * X_matrix)';
     S_vector_crt     = (z_vector_crt'          * X_matrix)';
     % (S_1,...,S_n)', n*1 vector
-    
+
     %========== Part 1: plots of pdf and CDF via 1 simulated data =========
     if sim == 1
         %--------------- 1D plot -----------------------------------------
         x_grid = linspace(-4, 4, num_grids)';
-        
+
         pdf_1D_in_target_grid = zeros(num_grids, 1);
         CDF_1D_in_target_grid = zeros(num_grids, 1);
         EDF_grid_data_exist   = zeros(num_grids, 1);
@@ -182,7 +184,7 @@ for sim = 1:num_sim
             EDF_grid_crt(g)          = EDF_D_dim_func(...
                 S_vector_crt,     x_grid(g));
         end
-        
+
         [x_data_exist,   Epdf_data_exist] = ...
             est_pdf_from_histogram(S_vector_exist,   num_bins);
         [x_data_dep_2,   Epdf_data_dep_2] = ...
@@ -191,7 +193,7 @@ for sim = 1:num_sim
             est_pdf_from_histogram(S_vector_indep_3, num_bins);
         [x_data_crt,     Epdf_crt] = ...
             est_pdf_from_histogram(S_vector_crt,     num_bins);
-        
+
         %----------------------- compare pdfs ---------
         h_1 = figure(1);
         subplot(2,2,1)
@@ -201,56 +203,56 @@ for sim = 1:num_sim
         plot(x_data_dep_2,   Epdf_data_dep_2,   'r--', 'LineWidth', 1.0);
         plot(x_data_indep_3, Epdf_data_indep_3, 'magenta-.');
         plot(x_data_crt,     Epdf_crt,          'cyan-o', 'LineWidth', 0.8);
-        
+
         x_min_max = xlim; % get the x-axis limits for the current axes.
-        
+
         xlabel('{\boldmath{$s$}}', 'interpreter', 'latex');
         ylabel('{\textbf{compare pdf}}', 'interpreter', 'latex');
         title(['{\boldmath$n = ', num2str(num_obs), ...
             ',  p = ', num2str(dim_p), '$}'], 'interpreter', 'latex')
-        
+
         figure_name_1 = ['BKN_Theorems_1_2i',...
             '_G=',num2str(choice_G),'_F=',num2str(choice_F),...
             '_a=',num2str(choice_a_vector),...
             '_Epdf_B=', num2str(num_bins), ...
             '_n=',num2str(num_obs),'_p=',num2str(dim_p)];
         print(h_1, '-depsc', [figure_name_1, '.eps']);
-        
+
         %----------------------- compare KDEs ---------
         [KDE_data_exist,  x_data_exist_KDE] = ksdensity(S_vector_exist);
-        
+
         h_5 = figure(5);
         subplot(2,2,1)
         plot(x_grid,           pdf_1D_in_target_grid, 'k-');
         hold on;
         plot(x_data_exist,     Epdf_data_exist,  'b:', 'LineWidth', 1.5);
         plot(x_data_exist_KDE, KDE_data_exist,   'r--'); hold on;
-        
+
         xlabel('{\boldmath{$s$}}', 'interpreter', 'latex');
         ylabel('{\textbf{compare pdf}}', 'interpreter', 'latex');
         title(['{\boldmath$n = ', num2str(num_obs), ...
             ',  p = ', num2str(dim_p), '$}'], 'interpreter', 'latex')
-        
+
         xlim([...
             min([x_min_max(1), x_data_exist_KDE]) ...
             max([x_min_max(2), x_data_exist_KDE])]);
         % set the x-axis limits for the current axes.
-        
+
         figure_name_5 = ['BKN_Theorems_1_2i',...
             '_G=',num2str(choice_G),'_F=',num2str(choice_F),...
             '_a=',num2str(choice_a_vector),...
             '_KDE_Epdf_B=', num2str(num_bins), ...
             '_n=',num2str(num_obs),'_p=',num2str(dim_p)];
         print(h_5, '-depsc', [figure_name_5, '.eps']);
-        
+
         %----------------------------------------------------
         disp([ ...
             mean(S_vector_exist)   mean(S_vector_dep_2)  ...
             mean(S_vector_indep_3) mean(S_vector_crt)])
     end % if sim == 1
-    
+
     %-------------------- KS statistics ---------------------------------
-    
+
     vector_G_S_exist   = zeros(num_obs, 1); % (G(S_1),...,G(S_n))', n*1 vector
     vector_G_S_dep_2   = zeros(num_obs, 1); % (G(S_1),...,G(S_n))', n*1 vector
     vector_G_S_indep_3 = zeros(num_obs, 1); % (G(S_1),...,G(S_n))', n*1 vector
@@ -263,7 +265,7 @@ for sim = 1:num_sim
             vector_G_S_crt(i)     = CDF_1D_in_target(S_vector_crt(i));
         end
     end
-    
+
     D_n_exist(sim)   = KS_stat_1_sample(S_vector_exist,   vector_G_S_exist);
     D_n_dep_2(sim)   = KS_stat_1_sample(S_vector_dep_2,   vector_G_S_dep_2);
     D_n_indep_3(sim) = KS_stat_1_sample(S_vector_indep_3, vector_G_S_indep_3);
@@ -279,7 +281,8 @@ toc
 h_3 = figure(3); %----- compare box plots of KS-statistics ------
 subplot(2,2,1)
 boxplot([D_n_exist, D_n_dep_2, D_n_indep_3, D_n_crt])
-set(gca, 'XTickLabel', {'z_1 (exist)', 'z_2', 'z_3', 'z_crt'});
+set(gca, 'XTickLabel', {'z_1 (exist)', 'z_2', 'z_3', 'z_crt'}, ...
+    'XTickLabelRotation',0);
 
 ylabel(['\textbf{compare} ', ...
     '{\boldmath{$\|\widehat{G}_{z}-G\|_{\infty}$}}'], 'interpreter', 'latex')
@@ -327,15 +330,16 @@ for k = 1:K
         x_d = x_vector(d);
         mu_d_k = mu_matrix(d, k);
         sigma_d_k = sigma_matrix(d, k);
-        
+
         Phi_vector(d) = normcdf( (x_d-mu_d_k)/sigma_d_k, 0, 1 );
     end
-    
+
     F_vector(k) = prod(Phi_vector);
 end
 
 CDF_val = sum(prop_vector .* F_vector); % scalar
 
+end
 
 %&&&&&&&&&&&&&&&&&&&&&& scripts for code 3 &&&&&&&&&&&&&&&&&&&&&&
 
@@ -348,7 +352,7 @@ function L_vector = discrete_label_generator(prop_vector, num_obs)
 % <Input>:
 % prop_vector: = (p_1,...,p_K)': K*1 vector
 %   num_obs  :  n
-%
+%-------------------------------------------------------------------------
 % <Output>:
 % L_vector: = (X_1,...,X_n)', n*1 vector
 %-------------------------------------------------------------------------
@@ -363,13 +367,13 @@ for i = 1:num_obs
     for k = 1:K
         F_k_minus_1 = sum(prop_add_vector(1: (k)));
         F_k = F_k_minus_1 + prop_add_vector(k+1);
-        
+
         if F_k_minus_1 < U_vector(i) && U_vector(i) <= F_k
             L_vector(i) = k;
         end
     end
 end
-
+end
 
 %&&&&&&&&&&&&&&&&&&&&&& scripts for code 4 &&&&&&&&&&&&&&&&&&&&&&
 
@@ -394,7 +398,7 @@ for i = 1:num_obs
 end
 
 EDF_func = mean( vector_ind ); % scalar
-
+end
 
 %&&&&&&&&&&&&&&&&&&&&&& scripts for code 5 &&&&&&&&&&&&&&&&&&&&&&
 
@@ -425,7 +429,7 @@ rel_freq_vector = bin_counts_vector'/num_obs;
 
 hat_f_vector = rel_freq_vector/(bin_centers_vector(2)-bin_centers_vector(1));
 % (\hat f(c_1),..., \hat f(c_B))
-
+end
 
 %&&&&&&&&&&&&&&&&&&&&&& scripts for code 6 &&&&&&&&&&&&&&&&&&&&&&
 
@@ -491,11 +495,11 @@ if method == 1 % for SVD method in Golub & Van Loan (2013)
     [U, Sigma, V] = svd(A_matrix); % [U,S,V] = svd(A)
     % U: n*n; Sigma: n*p; V: p*p.
     rank_A = rank(A_matrix); % r
-    
+
     if sum(abs(b_vector)) == 0 % b_vector = 0
-        
+
         x_vector_opt = abs(a_circle) * V(:, end);
-        
+
     else
         U_1_matrix = U(:, 1:rank_A); % n*r
         Sigma_1_matrix = Sigma(1:rank_A, 1:rank_A); % r*r
@@ -503,15 +507,15 @@ if method == 1 % for SVD method in Golub & Van Loan (2013)
         % so A = U_1*S_1*V_1'
         vector_singular_values = diag(Sigma_1_matrix);
         % vector, r*1, sigma_1>=...>=sigma_r>0.
-        
+
         %------------------------------------------------------------------
         x_vector_OLS = hat_x_vector_lambda(rank_A, ...
             U_1_matrix, V_1_matrix, vector_singular_values, b_vector, 0);
-        
+
         %------------------------------------------------------------------
         if norm(x_vector_OLS, 2) == a_circle
             x_vector_opt = x_vector_OLS;
-            
+
         else
             myfun = @(lambda) function_of_lambda(rank_A, ...
                 U_1_matrix, vector_singular_values, ...
@@ -520,16 +524,19 @@ if method == 1 % for SVD method in Golub & Van Loan (2013)
             if EXITFLAG ~= 1
                 disp([' EXITFLAG of fzero = ', num2str(EXITFLAG)])
             end
-            
+
             x_vector_opt = hat_x_vector_lambda(rank_A, ...
                 U_1_matrix, V_1_matrix, vector_singular_values, ...
                 b_vector, hat_lambda);
         end
     end
     %----------------------------------------------------------------------
-    
+
 end
 
+end
+
+%--------------------------------------------------------------------------
 function x_vector_lambda = hat_x_vector_lambda(rank_A, ...
     U_1_matrix, V_1_matrix, vector_singular_values, b_vector, lambda)
 
@@ -541,10 +548,11 @@ function x_vector_lambda = hat_x_vector_lambda(rank_A, ...
 x_vector_lambda = 0;
 for j = 1:rank_A
     sigma_j = vector_singular_values(j);
-    
+
     x_vector_lambda = x_vector_lambda + ...
         ( sigma_j * (U_1_matrix(:, j)'*b_vector) / (sigma_j^2 + lambda) ) ...
         * V_1_matrix(:, j);
+end
 end
 
 %==========================================================================
@@ -559,13 +567,14 @@ function F_lambda = function_of_lambda(rank_A, ...
 F_lambda = 0;
 for j = 1:rank_A
     sigma_j = vector_singular_values(j);
-    
+
     F_lambda = F_lambda + ...
         ( sigma_j * (U_1_matrix(:, j)'*b_vector) / (sigma_j^2 + lambda) )^2;
 end
 
 F_lambda = F_lambda - a_circle^2;
 
+end
 
 %&&&&&&&&&&&&&&&&&&&&&& scripts for code 8 &&&&&&&&&&&&&&&&&&&&&&
 
@@ -594,7 +603,7 @@ cov_matrix = zeros(D,D);
 for d = 1:D
     %-----------------------------------------------------
     mu_vector(d) = sum( prop_vector' .* mu_matrix(d,:) );
-    
+
     %-----------------------------------------------------
     var_d = sum( prop_vector' .* (mu_matrix(d,:).^2 + sigma_matrix(d,:).^2) ) ...
         - (mu_vector(d))^2;
@@ -610,7 +619,7 @@ for d = 1:D
         cov_matrix(d, k) = cov_matrix(k,d);
     end
 end
-
+end
 
 %&&&&&&&&&&&&&&&&&&&&&& scripts for code 9 &&&&&&&&&&&&&&&&&&&&&&
 
@@ -664,7 +673,7 @@ data_matrix = zeros(dim_G, num_obs);  % D*n matrix
 for i = 1:num_obs
     L_rv = discrete_label_generator(prop_vector, 1); % scalar label r.v.
     Z_vector = normrnd(0, 1, dim_G, 1); % D*1 vector
-    
+
     data_matrix(:, i) = mu_matrix(:, L_rv) + ...
         sigma_matrix(:, L_rv) .* Z_vector; % D*num_obs, matrix
 end
@@ -699,14 +708,15 @@ for k = 1:K
         x_d = x_vector(d);
         mu_d_k = mu_matrix(d, k);
         sigma_d_k = sigma_matrix(d, k);
-        
+
         phi_vector(d) = normpdf( (x_d-mu_d_k)/sigma_d_k, 0, 1 )/sigma_d_k;
     end
-    
+
     f_vector(k) = prod(phi_vector);
 end
 
 pdf_val = sum(prop_vector .* f_vector); % scalar
+end
 
 
 %&&&&&&&&&&&&&&&&&&&&&& scripts for code 11 &&&&&&&&&&&&&&&&&&&&&&
@@ -725,14 +735,14 @@ function [X_matrix] = X_matrix_sim(choice_F, dim_p, num_obs, mu_F, A, B)
 %--------------------- generate data matrix ---------------------------
 if     choice_F == 0
     X_matrix = normrnd(A, B, dim_p, num_obs) - mu_F; % mu_F_centered = 0
-    
+
 elseif choice_F == 1
     X_matrix = unifrnd(A, B, dim_p, num_obs) - mu_F; % mu_F_centered = 0
-    
+
 elseif choice_F == 2
     X_matrix = 6 * (betarnd(A, B, dim_p, num_obs) - mu_F); % mu_F_centered = 0
 end
-
+end
 
 %&&&&&&&&&&&&&&&&&&&&&& scripts for code 12 &&&&&&&&&&&&&&&&&&&&&&
 
@@ -773,7 +783,7 @@ if     dim_p == num_obs
         disp(' norm_squared_z_vector_0 \ne 1; return!!!')
         return
     end
-    
+
 elseif dim_p > num_obs
     [~, ~, V_matrix] = svd(X_matrix');
     %     [U,S,V] = svd(X) produces a diagonal matrix S, of the same
@@ -781,12 +791,12 @@ elseif dim_p > num_obs
     %     decreasing order, and unitary matrices U and V so that X = U*S*V'.
     % So, here, X_matrix' = U S V^T, where X_matrix' is n*p,
     % U is n*n, S is n*p, V is p*p.
-    
+
     z_vector = z_vector_0 + ...
         sqrt( 1 - norm_squared_z_vector_0 ) * V_matrix(:, (num_obs+1));
     % p*1 vector, \|z_vector\|_2 = 1
 end
-
+end
 
 %&&&&&&&&&&&&&&&&&&&&&& scripts for code 13 &&&&&&&&&&&&&&&&&&&&&&
 
@@ -804,3 +814,4 @@ function [z_vector] = z_vector_unit_Euclidean_norm( X_vector )
 z_vector = X_vector / ( sum(X_vector.^2)^(1/2) );
 % vector, on the unit sphere
 
+end
