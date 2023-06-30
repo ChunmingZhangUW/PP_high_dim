@@ -58,7 +58,7 @@ if     choice_G == 1 % mixture Gaussian
     disp(' mu_G_vector, cov_G_matrix are: ')
     disp( [mu_G_vector, cov_G_matrix] )
 
-    mu_2_G = cov_G_matrix - mu_G_vector^2;
+    mu_2_G = cov_G_matrix + mu_G_vector^2;
 
     %----------------------------------------------------
     disp('===== For Theorem 1 =====');
