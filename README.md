@@ -2,7 +2,7 @@
 
 ============== Part 1: Readme description for Matlab codes =============================
 
-Readme description for producing Figure 2 (left panel and right panel) and Figure 1 (left panel) of the paper titled "A Computational Perspective on Projection Pursuit in High Dimensions: Feasible or Infeasible Feature Extraction" by Zhang, Ye and Wang (2022, International Statistical Review, to appear, at https://onlinelibrary.wiley.com/doi/10.1111/insr.12517). Inputs, e.g., sample size $n$, data dimension $p$ and types of data distribution, used in codes for other figures can be similarly and manually adjusted.
+Readme description for producing Figure 2 (left panel and right panel) and Figure 1 (left panel) of the paper titled "A Computational Perspective on Projection Pursuit in High Dimensions: Feasible or Infeasible Feature Extraction" by Zhang, Ye and Wang (2023, International Statistical Review, Volume 91, Issue 1, 140–161, at https://onlinelibrary.wiley.com/doi/10.1111/insr.12517). Inputs, e.g., sample size $n$, data dimension $p$ and types of data distribution, used in codes for other figures can be similarly and manually adjusted.
 
 All Matlab codes are located in the same directory.
 
@@ -85,7 +85,7 @@ if     choice_G == 1 % mixture Gaussian
     disp(' mu_G_vector, cov_G_matrix are: ')
     disp( [mu_G_vector, cov_G_matrix] )
 
-    mu_2_G = cov_G_matrix - mu_G_vector^2;
+    mu_2_G = cov_G_matrix + mu_G_vector^2;
 
     %----------------------------------------------------
     disp('===== For Theorem 1 =====');
