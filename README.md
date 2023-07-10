@@ -2,7 +2,7 @@
 
 ============== Part 1: Readme description for Matlab codes =============================
 
-Readme Description for Producing Figure 2 (left Panel and Right Panel) and Figure 1 (Left Panel) of the paper titled "A Computational Perspective on Projection Pursuit in High Dimensions: Feasible or Infeasible Feature Extraction" by Zhang, Ye and Wang (2023, International Statistical Review, Volume 91, Issue 1, 140–161, available at https://onlinelibrary.wiley.com/doi/10.1111/insr.12517). 
+This is the Readme Description for Producing Figure 2 (left Panel and Right Panel) and Figure 1 (Left Panel) of the paper titled "A Computational Perspective on Projection Pursuit in High Dimensions: Feasible or Infeasible Feature Extraction" by Chunming Zhang, Jimin Ye, and Xiaomei Wang (2023, International Statistical Review, Volume 91, Issue 1, 140–161, available at https://onlinelibrary.wiley.com/doi/10.1111/insr.12517). 
 
 Inputs such as sample size $n$, data dimension $p$, and types of data distribution, used in the codes for other figures can be adjusted manually in a similar way.
 
