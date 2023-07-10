@@ -2,16 +2,18 @@
 
 ============== Part 1: Readme description for Matlab codes =============================
 
-Readme description for producing Figure 2 (left panel and right panel) and Figure 1 (left panel) of the paper titled "A Computational Perspective on Projection Pursuit in High Dimensions: Feasible or Infeasible Feature Extraction" by Zhang, Ye and Wang (2023, International Statistical Review, Volume 91, Issue 1, 140–161, at https://onlinelibrary.wiley.com/doi/10.1111/insr.12517). Inputs, e.g., sample size $n$, data dimension $p$ and types of data distribution, used in codes for other figures can be similarly and manually adjusted.
+Readme Description for Producing Figure 2 (left Panel and Right Panel) and Figure 1 (Left Panel) of the paper titled "A Computational Perspective on Projection Pursuit in High Dimensions: Feasible or Infeasible Feature Extraction" by Zhang, Ye and Wang (2023, International Statistical Review, Volume 91, Issue 1, 140–161, available at https://onlinelibrary.wiley.com/doi/10.1111/insr.12517). 
+
+Inputs such as sample size $n$, data dimension $p$, and types of data distribution, used in the codes for other figures can be adjusted manually in a similar way.
 
 All Matlab codes are located in the same directory.
 
-There are 2 methods to implement the code:
+There are two methods to implement the code:
 
 Method 1: 
 (1) Main matlab code: "BKN_Theorems_1_2i.m" (attached in Part 2). 
 
-(2) This main code calls for other matlab functions (attached in Part 2) listed below:
+(2) This main code calls other Mtlab functions (attached in Part 2) listed below:
 
 est_pdf_from_histogram.m                    
 CDF_mixture_Gaussians_D_dim_func.m          mean_cov_mixture_Gaussians_D_dim.m          
@@ -21,7 +23,7 @@ Least_squares_min_w_quad_equa_constraint.m  z_vector_exist_dep_on_X_G.m
 X_matrix_sim.m                              z_vector_unit_Euclidean_norm.m              
 discrete_label_generator.m            
    
-Method 2: directly run the source code "demo_code.m" in the GitHub https://github.com/ChunmingZhangUW/PP_high_dim.
+Method 2: Directly run the source code "demo_code.m" available on GitHub at https://github.com/ChunmingZhangUW/PP_high_dim.
 
 ============== Part 2: Scripts for Matlab codes =============================
 
