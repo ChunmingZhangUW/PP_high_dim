@@ -1,4 +1,4 @@
-# PP_high_dim
+# A Computational Perspective on Projection Pursuit in High Dimensions: Feasible or Infeasible Feature Extraction
 
 ============== Part 1: Readme description for Matlab codes =============================
 
