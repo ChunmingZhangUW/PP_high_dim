@@ -13,17 +13,23 @@ All MATLAB codes are located in the same directory.
 Methods to Implement the Code
 
 Method 1: 
+
 (1) Main MATLAB Code: "BKN_Theorems_1_2i.m" (provided in Part 2).
 
 (2) This main code calls other MATLAB functions (provided in Part 2) listed below:
 
-est_pdf_from_histogram.m                    
-CDF_mixture_Gaussians_D_dim_func.m          mean_cov_mixture_Gaussians_D_dim.m          
-EDF_D_dim_func.m                            mixture_Gaussians_D_dim_generator.m         
-KS_stat_1_sample.m                          pdf_mixture_Gaussians_D_dim_func.m          
-Least_squares_min_w_quad_equa_constraint.m  z_vector_exist_dep_on_X_G.m                 
-X_matrix_sim.m                              z_vector_unit_Euclidean_norm.m              
-discrete_label_generator.m            
+est_pdf_from_histogram.m
+CDF_mixture_Gaussians_D_dim_func.m
+mean_cov_mixture_Gaussians_D_dim.m
+EDF_D_dim_func.m
+mixture_Gaussians_D_dim_generator.m
+KS_stat_1_sample.m
+pdf_mixture_Gaussians_D_dim_func.m
+Least_squares_min_w_quad_equa_constraint.m
+z_vector_exist_dep_on_X_G.m
+X_matrix_sim.m
+z_vector_unit_Euclidean_norm.m
+discrete_label_generator.m
    
 Method 2: Run the source code "demo_code.m" directly, available on GitHub at https://github.com/ChunmingZhangUW/PP_high_dim.
 
