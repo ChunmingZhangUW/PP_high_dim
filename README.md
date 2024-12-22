@@ -2,18 +2,20 @@
 
 ============== Part 1: Readme description for Matlab codes =============================
 
-This is the Readme Description for Producing Figure 2 (left Panel and Right Panel) and Figure 1 (Left Panel) of the paper titled "A Computational Perspective on Projection Pursuit in High Dimensions: Feasible or Infeasible Feature Extraction" by Chunming Zhang, Jimin Ye, and Xiaomei Wang (2023, International Statistical Review, Volume 91, Issue 1, 140–161, available at https://onlinelibrary.wiley.com/doi/10.1111/insr.12517). 
+This is the README description for producing Figure 2 (left panel and right panel) and Figure 1 (left panel) of the paper:
 
-Inputs such as sample size $n$, data dimension $p$, and types of data distribution, used in the codes for other figures can be adjusted manually in a similar way.
+Zhang, C.M., Ye, J.M., and Wang, X.M. (2023). A computational perspective on projection pursuit in high dimensions: feasible or infeasible feature extraction. International Statistical Review, 91(1), 140-161. [https://onlinelibrary.wiley.com/doi/10.1111/insr.12517]
 
-All Matlab codes are located in the same directory.
+Inputs such as sample size ($n$), data dimension ($p$), and types of data distribution, used in the codes for other figures, can be adjusted manually in a similar way.
 
-There are two methods to implement the code:
+All MATLAB codes are located in the same directory.
+
+Methods to Implement the Code
 
 Method 1: 
-(1) Main matlab code: "BKN_Theorems_1_2i.m" (attached in Part 2). 
+(1) Main MATLAB Code: "BKN_Theorems_1_2i.m" (provided in Part 2).
 
-(2) This main code calls other Mtlab functions (attached in Part 2) listed below:
+(2) This main code calls other MATLAB functions (provided in Part 2) listed below:
 
 est_pdf_from_histogram.m                    
 CDF_mixture_Gaussians_D_dim_func.m          mean_cov_mixture_Gaussians_D_dim.m          
@@ -23,7 +25,7 @@ Least_squares_min_w_quad_equa_constraint.m  z_vector_exist_dep_on_X_G.m
 X_matrix_sim.m                              z_vector_unit_Euclidean_norm.m              
 discrete_label_generator.m            
    
-Method 2: Directly run the source code "demo_code.m" available on GitHub at https://github.com/ChunmingZhangUW/PP_high_dim.
+Method 2: Run the source code "demo_code.m" directly, available on GitHub at https://github.com/ChunmingZhangUW/PP_high_dim.
 
 ============== Part 2: Scripts for Matlab codes =============================
 
