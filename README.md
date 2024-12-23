@@ -1,6 +1,6 @@
 # A Computational Perspective on Projection Pursuit in High Dimensions: Feasible or Infeasible Feature Extraction
 
-============== Part 1: Part 1: README Description for MATLAB Code =============================
+============== Part 1: Part 1: README Description for MATLAB Code ==================
 
 This is the README description for producing Figure 2 (left panel and right panel) and Figure 1 (left panel) of the paper:
 
