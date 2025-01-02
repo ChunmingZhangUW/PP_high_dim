@@ -1,4 +1,4 @@
-# Assessment of projection pursuit index for classifying high dimension low sample size data in R
+# A computational perspective on projection pursuit in high dimensions: feasible or infeasible feature extraction
 
 ============== Part 1: Part 1: README Description for MATLAB Code ==================
 
