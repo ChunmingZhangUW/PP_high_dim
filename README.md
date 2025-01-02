@@ -1,4 +1,4 @@
-# A Computational Perspective on Projection Pursuit in High Dimensions: Feasible or Infeasible Feature Extraction
+# Assessment of projection pursuit index for classifying high dimension low sample size data in R
 
 ============== Part 1: Part 1: README Description for MATLAB Code ==================
 
